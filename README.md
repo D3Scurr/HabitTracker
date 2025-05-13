@@ -10,6 +10,7 @@ To Do:
  - Back End
  - Slack off section
  - "I'm feeling tired" button
+
 To Expand:
  - Checking the habits off
  - Customizable timer (how much of focus and break time)
