@@ -1,9 +1,9 @@
 A simple Habit Tracker and overall self improvement site for my first real project
 Simple habit list with adding habits
-Timer that I can start and stop
+Timer that I can start and stop, custom focus/break time
+Random quote display (on refresh for now, for testing)
 
 To Do:
- - Random quote for the day (for now for the refresh of the site)
  - Streak system, consistent days, numbers of focus blocks done
  - Reminder when to sleep (REM phase tracker)
  - XP, leveling system
@@ -13,6 +13,5 @@ To Do:
 
 To Expand:
  - Checking the habits off
- - Customizable timer (how much of focus and break time)
  - Saving favorite quotes
  - Do an actual design and styling

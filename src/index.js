@@ -4,12 +4,14 @@ import './index.css';
 import HabitList from './HabitList';
 import TimeTracker from './TimeTracker';
 import reportWebVitals from './reportWebVitals';
+import Quotes from './Quotes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <HabitList />
     <TimeTracker />
+    <Quotes />
   </React.StrictMode>
 );
 
