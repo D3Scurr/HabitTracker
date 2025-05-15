@@ -34,12 +34,12 @@ export default function Timer() {
     }, [isRunning]);
 
     useEffect(() => { // Handling Focus/Break time checks
-        if(nowFocus && elapsedTime === focusTime) {
+        if(nowFocus && elapsedTime == focusTime) {
             setNowFocus(false);
             setElapsedTime(0);
             setSeconds(0);
             setMinutes(0);
-        } else if (!nowFocus && elapsedTime === breakTime) {
+        } else if (!nowFocus && elapsedTime == breakTime) {
             setNowFocus(true);
             setElapsedTime(0);
             setSeconds(0);
