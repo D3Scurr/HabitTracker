@@ -1,19 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import HabitList from './HabitList';
-import TimeTracker from './TimeTracker';
-import Quotes from './Quotes';
-import ServerTest from './ServerTest';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <HabitList />
-    <TimeTracker />
-    <Quotes />
-    <ServerTest />
+    <App/>
   </React.StrictMode>
 );
 

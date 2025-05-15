@@ -54,13 +54,10 @@ export default function Timer() {
             <input 
                 type="number"
                 value={focusTime}
+                min="0"
                 onChange={handleFocusTimeChange}
             />
-            <input 
-                type="number"
-                value={breakTime}
-                onChange={handleBreakTimeChange}
-            />
+            <input type="number" min="1" value={breakTime} onChange={handleBreakTimeChange}/>
             <button onClick={ () => {setIsRunning(!isRunning); }}>{ isRunning ? "Stop Timer" : "Start Timer"}</button>
         </div>
     )
