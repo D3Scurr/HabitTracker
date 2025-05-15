@@ -12,14 +12,8 @@ export default function List() {
 
     return (
         <div>
-        <input
-            type="text"
-            value={newHabit}
-            onChange={(e) => setNewHabit(e.target.value)}
-            placeholder="Add new habit"
-        />
+        <input type="text" value={newHabit} onChange={(e) => setNewHabit(e.target.value)} placeholder="Add new habit"/>
         <button onClick={addHabit}>Add Task</button>
-
         <ul>
             {habits.map((habit, index) => (
                 <li key={index}>{habit}</li>
