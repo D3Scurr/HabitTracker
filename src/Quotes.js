@@ -11,7 +11,7 @@ export default function Quotes() {
 
     useEffect(() => {
         setRandom(Math.floor(Math.random()*Quotes.length));
-    }, [])
+    }, [Quotes.length])
 
     return(
         <div>

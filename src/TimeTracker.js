@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export default function Timer() {
     const [isRunning, setIsRunning] = useState(false);
-    const [elapsedTime, setElapsedTime] = useState(0);
+    const [elapsedTime, setElapsedTime] = useState(null);
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [breakTime, setBreakTime] = useState(0);
@@ -17,7 +17,7 @@ export default function Timer() {
             setMinutes((prevMinutes) => (prevMinutes + 1));
             setSeconds(0);
         }
-    })
+    },[minutes,seconds])
 
     useEffect(() => { // Handling the timer
         let intervalId;
@@ -34,12 +34,12 @@ export default function Timer() {
     }, [isRunning]);
 
     useEffect(() => { // Handling Focus/Break time checks
-        if(nowFocus && elapsedTime == focusTime) {
+        if(nowFocus && elapsedTime === focusTime) {
             setNowFocus(false);
             setElapsedTime(0);
             setSeconds(0);
             setMinutes(0);
-        } else if (!nowFocus && elapsedTime == breakTime) {
+        } else if (!nowFocus && elapsedTime === breakTime) {
             setNowFocus(true);
             setElapsedTime(0);
             setSeconds(0);

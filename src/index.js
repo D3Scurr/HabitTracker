@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import HabitList from './HabitList';
 import TimeTracker from './TimeTracker';
-import reportWebVitals from './reportWebVitals';
 import Quotes from './Quotes';
+import ServerTest from './ServerTest';
+import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,6 +13,7 @@ root.render(
     <HabitList />
     <TimeTracker />
     <Quotes />
+    <ServerTest />
   </React.StrictMode>
 );
 
