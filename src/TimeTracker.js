@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 
 export default function Timer() {
     const [isRunning, setIsRunning] = useState(false);
-    const [seconds, setSeconds] = useState(null);
+    const [elapsedTime, setElapsedTime] = useState(0);
+    const [seconds, setSeconds] = useState(0);
+    const [minutes, setMinutes] = useState(0);
     const [breakTime, setBreakTime] = useState(0);
     const [focusTime, setFocusTime] = useState(0);
     const [nowFocus, setNowFocus] = useState(true);
@@ -10,11 +12,19 @@ export default function Timer() {
     const handleFocusTimeChange = (e) => setFocusTime(e.target.value);
     const handleBreakTimeChange = (e) => setBreakTime(e.target.value);
 
-    useEffect(() => {
+    useEffect(() => { // Handling second to minute change
+        if(seconds >= 60){
+            setMinutes((prevMinutes) => (prevMinutes + 1));
+            setSeconds(0);
+        }
+    })
+
+    useEffect(() => { // Handling the timer
         let intervalId;
 
         if (isRunning) {
             intervalId = setInterval(() => {
+                setElapsedTime((prevElapsedTime) => (prevElapsedTime + 1));
                 setSeconds((prevSeconds) => (prevSeconds + 1));
             }, 1000);
         } else {
@@ -23,19 +33,23 @@ export default function Timer() {
         return () => clearInterval(intervalId);
     }, [isRunning]);
 
-    useEffect(() => {
-        if(nowFocus && seconds == focusTime) {
+    useEffect(() => { // Handling Focus/Break time checks
+        if(nowFocus && elapsedTime == focusTime) {
             setNowFocus(false);
+            setElapsedTime(0);
             setSeconds(0);
-        } else if (!nowFocus && seconds == breakTime) {
+            setMinutes(0);
+        } else if (!nowFocus && elapsedTime == breakTime) {
             setNowFocus(true);
+            setElapsedTime(0);
             setSeconds(0);
+            setMinutes(0);
         }
-    }, [seconds, nowFocus, focusTime, breakTime]);
+    }, [elapsedTime, nowFocus, focusTime, breakTime]);
 
     return (
         <div>
-            <h1>Time: {seconds} seconds</h1>
+            <h1>Time: {minutes < 10 ? "0"+minutes : minutes}:{seconds < 10 ? "0"+seconds : seconds} </h1>
             <p>{ nowFocus ? "Focus!" : "Break time :D" }</p>
             <input 
                 type="number"
