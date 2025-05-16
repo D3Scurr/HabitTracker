@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useData } from "./DataProvider";
 
-export default function Timer() {
+export default function TimeTracker() {
+    const data = useData();
     const [isRunning, setIsRunning] = useState(false);
     const [elapsedTime, setElapsedTime] = useState(null);
     const [seconds, setSeconds] = useState(0);
