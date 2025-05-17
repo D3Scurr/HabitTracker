@@ -9,7 +9,12 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/api", (req, res) => {
-    res.json(database);
+    fs.readFile("data.json", "utf8", (err, data) => {
+        if (err) {
+            return res.status(500).send("Error reading data");
+        }
+        res.json(JSON.parse(data));
+    });
 });
 
 app.post("/index", (req, res) => {

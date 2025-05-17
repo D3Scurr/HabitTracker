@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useData } from "./DataProvider";
 
 export default function TimeTracker() {
-    const data = useData();
+    const [streak, setStreak] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [elapsedTime, setElapsedTime] = useState(null);
     const [seconds, setSeconds] = useState(0);
@@ -13,6 +12,17 @@ export default function TimeTracker() {
 
     const handleFocusTimeChange = (e) => setFocusTime(e.target.value);
     const handleBreakTimeChange = (e) => setBreakTime(e.target.value);
+
+    useEffect(() => {
+        fetch("http://localhost:3001/api")
+            .then((res) => res.json())
+            .then(data => {
+                if(data.streak !== undefined){
+                    setStreak(data.streak);
+                }
+            })
+            .catch((err) => console.error("Failed to fetch Streak:",err));
+    }, []);
 
     useEffect(() => { // Handling second to minute change
         if(seconds >= 60){
@@ -41,6 +51,7 @@ export default function TimeTracker() {
             setElapsedTime(0);
             setSeconds(0);
             setMinutes(0);
+            setStreak((prevStreak) => (prevStreak + 1));
         } else if (!nowFocus && elapsedTime == breakTime) {
             setNowFocus(true);
             setElapsedTime(0);
@@ -53,6 +64,7 @@ export default function TimeTracker() {
         <div>
             <h1>Time: {minutes < 10 ? "0"+minutes : minutes}:{seconds < 10 ? "0"+seconds : seconds} </h1>
             <p>{ nowFocus ? "Focus!" : "Break time :D" }</p>
+            <p>Streak: {streak}</p>
             <input 
                 type="number"
                 value={focusTime}

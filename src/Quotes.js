@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { useData } from "./DataProvider";
 
 export default function Quotes() {
-    const data = useData();
-    const Quotes = data?.Quotes || [];
-    const [random,setRandom] = useState(null)
+    const [random,setRandom] = useState(null);
+    const [quotes,setQuotes] = useState([]);
 
     useEffect(() => {
-        setRandom(Math.floor(Math.random()*Quotes.length));
-    }, [Quotes.length])
+            fetch("http://localhost:3001/api")
+                .then((res) => res.json())
+                .then(data => {
+                    if(data.Quotes !== undefined) {
+                        setQuotes(data.Quotes);
+                    }
+                })
+                .catch(err => console.error("Failed to fetch Quotes:",err));
+        }, []);
+
+    useEffect(() => {
+        if(quotes.length > 0) {
+            setRandom(Math.floor(Math.random()*quotes.length));
+        }
+    }, [quotes.length])
 
     return(
         <div>
-            <p>{Quotes[random]}</p>
+            <p>{quotes[random]}</p>
         </div>
     )
 }
