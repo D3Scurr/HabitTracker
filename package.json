@@ -16,7 +16,7 @@
   "scripts": {
     "server": "npm start --prefix ./server",
     "client": "react-scripts start",
-    "start": "react-scripts start",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "react-scripts build",
     "test": "react-scripts test",

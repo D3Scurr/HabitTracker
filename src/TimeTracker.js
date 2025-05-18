@@ -13,6 +13,22 @@ export default function TimeTracker() {
     const handleFocusTimeChange = (e) => setFocusTime(e.target.value);
     const handleBreakTimeChange = (e) => setBreakTime(e.target.value);
 
+    const updateStreak = (newStreak) => {
+        fetch("http://localhost:3001/streak", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ streak: newStreak })
+        })
+        .then(res => res.text())
+        .then(msg => {
+            console.log(msg);
+            setStreak(newStreak); // update frontend state
+        })
+        .catch(err => console.error("Failed to update streak:", err));
+    };
+
     useEffect(() => {
         fetch("http://localhost:3001/api")
             .then((res) => res.json())
@@ -51,7 +67,7 @@ export default function TimeTracker() {
             setElapsedTime(0);
             setSeconds(0);
             setMinutes(0);
-            setStreak((prevStreak) => (prevStreak + 1));
+            updateStreak(streak + 1);
         } else if (!nowFocus && elapsedTime == breakTime) {
             setNowFocus(true);
             setElapsedTime(0);

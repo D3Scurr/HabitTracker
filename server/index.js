@@ -52,6 +52,38 @@ app.post("/index", (req, res) => {
     });
 });
 
+app.post("/streak", (req, res) => {
+    const streak = req.body;
+
+    if (typeof streak !== "number") {
+        return res.status(400).send("Invalid streak value");
+    }
+
+    fs.readFile("data.json", "utf8", (err, data) => {
+        if (err) {
+            console.error("Error reading file:", err);
+            return res.status(500).send("Error reading file");
+        }
+
+        let json;
+        try {
+            json = JSON.parse(data);
+        } catch (parseErr) {
+            console.error("Error parsing JSON:", parseErr);
+            return res.status(500).send("Error parsing JSON");
+        }
+
+        json.streak = streak;
+
+        fs.writeFile("data.json", JSON.stringify(json, null, 2), (err) => {
+            if (err) {
+                console.error("Error writing file:", err);
+                return res.status(500).send("Error writing file");
+            }
+            res.status(200).send("Streak updated");
+        });
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);

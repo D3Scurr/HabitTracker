@@ -2,6 +2,7 @@ import './App.css';
 import HabitList from './HabitList';
 import TimeTracker from './TimeTracker';
 import Quotes from './Quotes';
+import Clock from './Clock';
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <HabitList />
       <TimeTracker />
       <Quotes />
+      <Clock />
     </div>
   );
 }

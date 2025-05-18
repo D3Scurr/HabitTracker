@@ -4,8 +4,7 @@ Timer that I can start and stop, custom focus/break time
 Random quote display (on refresh for now, for testing)
 
 To Do:
- - KEY - understanding express GET and POST and connecting it to other components
- - Streak system, consistent days, numbers of focus blocks done
+ - Consistent days, numbers of focus blocks done
  - Reminder when to sleep (REM phase tracker)
  - XP, leveling system
  - Back End
