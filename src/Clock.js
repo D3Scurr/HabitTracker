@@ -5,12 +5,22 @@ export default function Clock() {
     const [isLate, setIsLate] = useState(false);
 
     useEffect(() => {
-        // setCurTime(new Date());
-        if(curTime.getHours() > 9 && curTime.getHours() < 3){
-            setIsLate(true);
-        } else {
-            setIsLate(false);
-        }
+        const interval = setInterval(() => {
+            setCurTime(new Date());
+        },1000)
+        return () => clearInterval(interval);
+    })
+
+    useEffect(() => {
+        const checkTime = () => {
+            const hour = new Date().getHours();
+            setIsLate(hour >= 22 || hour <= 2);
+        };
+
+        checkTime();
+        const interval = setInterval(checkTime,60000);
+
+        return () => clearInterval(interval);
     })
 
     return(

@@ -36,6 +36,10 @@ export default function HabitList() {
         .catch(err => console.error("Failed to add habit:", err));
     };
 
+    const checkedHabit = (index) => {
+        alert(`checked off a habit ${habits[index].name}`);
+    }
+
     return (
         <div>
             <input
@@ -48,7 +52,7 @@ export default function HabitList() {
 
             <ul>
                 {habits.map((habit, index) => (
-                    <li key={index}>{habit.name}</li>
+                    <li key={index}>{habit.name}<input type="checkbox" onChange={() => checkedHabit(index)}/></li>
                 ))}
             </ul>
         </div>

@@ -85,6 +85,39 @@ app.post("/streak", (req, res) => {
     });
 });
 
+app.post("/Xp", (req,res) => {
+    const Xp = req.body;
+
+    if(typeof Xp !== "number"){
+        return res.status(400).send("Invalid Xp value");
+    }
+
+    fs.readFile("data.json", "utf8", (err, data) => {
+        if (err) {
+            console.error("Error reading file: ", err);
+            return res.status(500).send("Error reading file");
+        }
+
+        let json;
+        try {
+            json = JSON.parse(data);
+        } catch (parseErr) {
+            console.error("Error parsing JSON:", parseErr);
+            return res.status(500).send("Error parsing JSON");
+        }
+
+        json.Xp = Xp;
+
+        fs.writeFile("data.json", JSON.stringify(json, null, 2), (err) => {
+            if (err) {
+                console.error("Error writing file:", err);
+                return res.status(500).send("Error writing file");
+            }
+            return res.status(200).send("Xp updated!");
+        })
+    })
+});
+
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });
