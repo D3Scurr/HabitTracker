@@ -5,7 +5,6 @@ Random quote display (on refresh for now, for testing)
 Clock, reminds you when it's getting late
 
 To Do:
- - Make all the post functions into one
  - Consistent days
  - XP, leveling system
  - Slack off section

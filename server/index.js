@@ -17,13 +17,12 @@ app.get("/api", (req, res) => {
     });
 });
 
-app.post("/index", (req, res) => {
-    const newHabit = req.body;
-    console.log("Received new habit:", newHabit);
+app.post('/update', (req, res) => {
+    const { type, value } = req.body;
 
-    fs.readFile("data.json", "utf8", (err, data) => {
-        if (err) {
-            console.error("Error reading file:", err);
+    fs.readFile("data.json", "utf8", (err,data) => {
+        if(err) {
+            console.error("Error reading file: ",err);
             return res.status(500).send("Error reading file");
         }
 
@@ -31,89 +30,31 @@ app.post("/index", (req, res) => {
         try {
             json = JSON.parse(data);
         } catch (parseErr) {
-            console.error("Error parsing JSON:", parseErr);
+            console.error("Error parsing JSON: ",parseErr);
             return res.status(500).send("Error parsing JSON");
         }
 
-        if (!Array.isArray(json.Habits)) {
-            console.error("Habits is not an array in JSON");
-            return res.status(500).send("Invalid data format");
+        switch(type) {
+            case "Xp":
+                json.Xp = value;
+                break;
+            case "Habit":
+                json.Habits = json.Habits || [];
+                json.Habits.push({name: value});
+                break;
+            case "Streak":
+                json.Streak = value;
+                break;
+            default:
+                return res.status(400).json({message: "Invalid update type"})
         }
-
-        json.Habits.push(newHabit);
 
         fs.writeFile("data.json", JSON.stringify(json, null, 2), (err) => {
-            if (err) {
-                console.error("Error writing file:", err);
+            if(err) {
+                console.error("Error writing file: ",err);
                 return res.status(500).send("Error writing file");
             }
-            res.status(201).send("Habit saved");
-        });
-    });
-});
-
-app.post("/streak", (req, res) => {
-    const streak = req.body;
-
-    if (typeof streak !== "number") {
-        return res.status(400).send("Invalid streak value");
-    }
-
-    fs.readFile("data.json", "utf8", (err, data) => {
-        if (err) {
-            console.error("Error reading file:", err);
-            return res.status(500).send("Error reading file");
-        }
-
-        let json;
-        try {
-            json = JSON.parse(data);
-        } catch (parseErr) {
-            console.error("Error parsing JSON:", parseErr);
-            return res.status(500).send("Error parsing JSON");
-        }
-
-        json.streak = streak;
-
-        fs.writeFile("data.json", JSON.stringify(json, null, 2), (err) => {
-            if (err) {
-                console.error("Error writing file:", err);
-                return res.status(500).send("Error writing file");
-            }
-            res.status(200).send("Streak updated");
-        });
-    });
-});
-
-app.post("/Xp", (req,res) => {
-    const Xp = req.body;
-
-    if(typeof Xp !== "number"){
-        return res.status(400).send("Invalid Xp value");
-    }
-
-    fs.readFile("data.json", "utf8", (err, data) => {
-        if (err) {
-            console.error("Error reading file: ", err);
-            return res.status(500).send("Error reading file");
-        }
-
-        let json;
-        try {
-            json = JSON.parse(data);
-        } catch (parseErr) {
-            console.error("Error parsing JSON:", parseErr);
-            return res.status(500).send("Error parsing JSON");
-        }
-
-        json.Xp = Xp;
-
-        fs.writeFile("data.json", JSON.stringify(json, null, 2), (err) => {
-            if (err) {
-                console.error("Error writing file:", err);
-                return res.status(500).send("Error writing file");
-            }
-            return res.status(200).send("Xp updated!");
+            res.status(200).json({ message: `${type} updated` });
         })
     })
 });

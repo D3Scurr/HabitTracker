@@ -14,17 +14,20 @@ export default function TimeTracker() {
     const handleBreakTimeChange = (e) => setBreakTime(e.target.value);
 
     const updateStreak = (newStreak) => {
-        fetch("http://localhost:3001/streak", {
+        fetch("http://localhost:3001/update", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ streak: newStreak })
+            body: JSON.stringify({ 
+                type: "Streak",
+                value: newStreak 
+            })
         })
-        .then(res => res.text())
+        .then(res => res.json())
         .then(msg => {
             console.log(msg);
-            setStreak(newStreak); // update frontend state
+            setStreak(newStreak);
         })
         .catch(err => console.error("Failed to update streak:", err));
     };
@@ -33,8 +36,8 @@ export default function TimeTracker() {
         fetch("http://localhost:3001/api")
             .then((res) => res.json())
             .then(data => {
-                if(data.streak !== undefined){
-                    setStreak(data.streak);
+                if(data.Streak !== undefined){
+                    setStreak(data.Streak);
                 }
             })
             .catch((err) => console.error("Failed to fetch Streak:",err));

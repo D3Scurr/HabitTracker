@@ -20,12 +20,15 @@ export default function HabitList() {
     const addHabit = (e) => {
         e.preventDefault();
 
-        fetch("http://localhost:3001/index", {
+        fetch("http://localhost:3001/update", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ name: newHabit }),
+            body: JSON.stringify({
+                type: "Habit",
+                value: newHabit
+            }),
         })
         .then(res => res.text())
         .then(msg => {
