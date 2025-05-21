@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 export default function HabitList() {
     const [habits, setHabits] = useState([]);
     const [newHabit, setNewHabit] = useState('');
+    const [checkboxes, setCheckboxes] = useState([]);
 
     const fetchHabits = () => {
         fetch("http://localhost:3001/api")
@@ -16,6 +17,12 @@ export default function HabitList() {
     useEffect(() => {
         fetchHabits();
     }, []);
+
+    useEffect(() => {
+        if (habits.length > 0) {
+            setCheckboxes(habits.map(h => false));
+        }
+    }, [habits]);
 
     const addHabit = (e) => {
         e.preventDefault();
@@ -41,6 +48,11 @@ export default function HabitList() {
 
     const checkedHabit = (index) => {
         alert(`checked off a habit ${habits[index].name}`);
+        setCheckboxes(prev => {
+            const updated = [...prev];
+            if(updated[index] == false) updated[index] = true;
+            return updated;
+        });
     }
 
     return (
@@ -55,7 +67,7 @@ export default function HabitList() {
 
             <ul>
                 {habits.map((habit, index) => (
-                    <li key={index}>{habit.name}<input type="checkbox" onChange={() => checkedHabit(index)}/></li>
+                    <li key={index}>{habit.name}<input type="checkbox" checked={checkboxes[index] || false} onChange={() => checkedHabit(index)}/></li>
                 ))}
             </ul>
         </div>
