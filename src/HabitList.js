@@ -65,9 +65,12 @@ export default function HabitList() {
             const updated = [...prev];
             if(updated[index] == false) updated[index] = true;
             return updated;
-        });
+        })
 
-        fetchCheckboxes();
+        const updatedCheckboxes = [...checkboxes];
+        if(updatedCheckboxes[index] === false) updatedCheckboxes[index] = true;
+
+        setCheckboxes(updatedCheckboxes);
 
         fetch("http://localhost:3001/update", {
             method: "POST",
@@ -76,12 +79,10 @@ export default function HabitList() {
             },
             body: JSON.stringify({
                 updates: [
-                    { type: "CheckboxUpdate", value: checkboxes }
+                    { type: "CheckboxUpdate", value: updatedCheckboxes }
                 ]
             })
-        })
-
-        fetchCheckboxes();
+        }).then(fetchCheckboxes);
     }
 
     return (
