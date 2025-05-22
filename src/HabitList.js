@@ -14,6 +14,15 @@ export default function HabitList() {
             .catch(err => console.error("Failed to fetch habits:", err));
     };
 
+    const fetchCheckboxes = () => {
+        fetch("http://localhost:3001/api")
+            .then(res => res.json())
+            .then(data => {
+                setCheckboxes(data.Checkboxes || []);
+            })
+            .catch(err => console.error("Failed to fetch checkboxes:",err));
+    }
+
     useEffect(() => {
         fetchHabits();
     }, []);
@@ -22,6 +31,7 @@ export default function HabitList() {
         if (habits.length > 0) {
             setCheckboxes(habits.map(h => false));
         }
+        fetchCheckboxes();
     }, [habits]);
 
     const addHabit = (e) => {
@@ -33,15 +43,18 @@ export default function HabitList() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                type: "Habit",
-                value: newHabit
-            }),
+                updates: [
+                    {type: "Habit",value: newHabit},
+                    {type: "Checkbox",value: false}
+                ]
+            })
         })
         .then(res => res.text())
         .then(msg => {
             alert(msg);
             setNewHabit("");
             fetchHabits();
+            fetchCheckboxes();
         })
         .catch(err => console.error("Failed to add habit:", err));
     };
@@ -53,6 +66,22 @@ export default function HabitList() {
             if(updated[index] == false) updated[index] = true;
             return updated;
         });
+
+        fetchCheckboxes();
+
+        fetch("http://localhost:3001/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                updates: [
+                    { type: "CheckboxUpdate", value: checkboxes }
+                ]
+            })
+        })
+
+        fetchCheckboxes();
     }
 
     return (

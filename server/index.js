@@ -18,7 +18,11 @@ app.get("/api", (req, res) => {
 });
 
 app.post('/update', (req, res) => {
-    const { type, value } = req.body;
+    const updates = req.body.updates;
+
+    if(!Array.isArray(updates)){
+        return res.status(400).json({ message: "Invalid update format" });
+    }
 
     fs.readFile("data.json", "utf8", (err,data) => {
         if(err) {
@@ -34,19 +38,31 @@ app.post('/update', (req, res) => {
             return res.status(500).send("Error parsing JSON");
         }
 
-        switch(type) {
-            case "Xp":
-                json.Xp = value;
-                break;
-            case "Habit":
-                json.Habits = json.Habits || [];
-                json.Habits.push({name: value});
-                break;
-            case "Streak":
-                json.Streak = value;
-                break;
-            default:
-                return res.status(400).json({message: "Invalid update type"})
+        for(const { type, value } of updates) {
+            switch(type) {
+                case "Xp":
+                    json.Xp = value;
+                    break;
+                case "Habit":
+                    json.Habits = json.Habits || [];
+                    json.Habits.push({name: value});
+                    break;
+                case "Checkbox":
+                    json.Checkboxes = json.Checkboxes || [];
+                    json.Checkboxes.push(value);
+                    break;
+                case "CheckboxUpdate":
+                    console.log(value);
+                    json.Checkboxes = json.Checkboxes || [];
+                    console.log(json.Checkboxes)
+                    json.Checkboxes = value;
+                case "Streak":
+                    if(typeof value != "number") break;
+                    json.Streak = value;
+                    break;
+                default:
+                    return res.status(400).json({message: "Invalid update type"})
+            }
         }
 
         fs.writeFile("data.json", JSON.stringify(json, null, 2), (err) => {
@@ -54,7 +70,7 @@ app.post('/update', (req, res) => {
                 console.error("Error writing file: ",err);
                 return res.status(500).send("Error writing file");
             }
-            res.status(200).json({ message: `${type} updated` });
+            res.status(200).json({ message: `${updates.type} updated` });
         })
     })
 });
