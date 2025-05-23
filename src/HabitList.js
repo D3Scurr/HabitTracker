@@ -79,7 +79,8 @@ export default function HabitList() {
             },
             body: JSON.stringify({
                 updates: [
-                    { type: "CheckboxUpdate", value: updatedCheckboxes }
+                    { type: "CheckboxUpdate", value: updatedCheckboxes },
+                    { type: "Xp",value: 10 }
                 ]
             })
         }).then(fetchCheckboxes);

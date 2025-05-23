@@ -13,7 +13,7 @@
   "Streak": 6,
   "Checkboxes": [
     true,
-    false,
+    true,
     true
   ],
   "Quotes": [
@@ -21,5 +21,5 @@
     "Give me six hours to chop down a tree and I will spend the first four sharpening the axe. — Abraham Lincoln",
     "It does not matter how slowly you go as long as you do not stop. — Confucius"
   ],
-  "Xp": 0
+  "Xp": 20
 }

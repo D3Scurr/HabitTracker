@@ -11,6 +11,5 @@ To Do:
  - "I'm feeling tired" button
 
 To Expand:
- - Checking the habits off
  - Saving favorite quotes
  - Do an actual design and styling

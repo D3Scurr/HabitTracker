@@ -41,7 +41,7 @@ app.post('/update', (req, res) => {
         for(const { type, value } of updates) {
             switch(type) {
                 case "Xp":
-                    json.Xp = value;
+                    json.Xp = json.Xp + value;
                     break;
                 case "Habit":
                     json.Habits = json.Habits || [];

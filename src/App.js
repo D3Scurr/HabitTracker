@@ -3,6 +3,7 @@ import HabitList from './HabitList';
 import TimeTracker from './TimeTracker';
 import Quotes from './Quotes';
 import Clock from './Clock';
+import XpBar from './XpBar';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <TimeTracker />
       <Quotes />
       <Clock />
+      <XpBar />
     </div>
   );
 }
