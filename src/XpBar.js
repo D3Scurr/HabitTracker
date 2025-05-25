@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
 
-export default function XpBar(){
+const XpBar = forwardRef((props,ref) => {
     const [xp,setXp] = useState(0);
 
     const fetchXp = () => {
@@ -14,6 +14,10 @@ export default function XpBar(){
             .catch((err) => console.error("Failed to fetch xp: ",err));
     }
 
+    useImperativeHandle(ref, () => ({
+        fetchXp
+    }));
+
     useEffect(() => {
         fetchXp();
     },[])
@@ -24,4 +28,6 @@ export default function XpBar(){
             <progress value={xp * 0.01} />
         </div>
     )
-}
+})
+
+export default XpBar;

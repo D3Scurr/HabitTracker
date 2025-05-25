@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function HabitList() {
+export default function HabitList({onTrigger}) {
     const [habits, setHabits] = useState([]);
     const [newHabit, setNewHabit] = useState('');
     const [checkboxes, setCheckboxes] = useState([]);
@@ -80,10 +80,13 @@ export default function HabitList() {
             body: JSON.stringify({
                 updates: [
                     { type: "CheckboxUpdate", value: updatedCheckboxes },
-                    { type: "Xp",value: 10 }
+                    { type: "Xp", value: 10 }
                 ]
             })
-        }).then(fetchCheckboxes);
+        }).then(fetchCheckboxes)
+        .then(() => {
+            onTrigger();
+        });
     }
 
     return (
