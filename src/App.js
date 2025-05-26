@@ -18,7 +18,7 @@ function App() {
   return (
     <div>
       <HabitList onTrigger={handleTrigger}/>
-      <TimeTracker />
+      <TimeTracker onTrigger={handleTrigger}/>
       <Quotes />
       <Clock />
       <XpBar ref={XpBarRef} />

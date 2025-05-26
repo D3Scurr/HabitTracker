@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-export default function TimeTracker() {
+export default function TimeTracker({onTrigger}) {
     const [streak, setStreak] = useState(0);
     const [isRunning, setIsRunning] = useState(false);
     const [elapsedTime, setElapsedTime] = useState(null);
@@ -20,8 +20,10 @@ export default function TimeTracker() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({ 
-                type: "Streak",
-                value: newStreak 
+                updates: [
+                    {type: "Streak",value: newStreak},
+                    {type: "Xp", value: 5}
+                ]
             })
         })
         .then(res => res.json())
@@ -31,6 +33,10 @@ export default function TimeTracker() {
         })
         .catch(err => console.error("Failed to update streak:", err));
     };
+
+    useEffect(() => {
+        onTrigger();
+    })
 
     useEffect(() => {
         fetch("http://localhost:3001/api")
@@ -71,6 +77,7 @@ export default function TimeTracker() {
             setSeconds(0);
             setMinutes(0);
             updateStreak(streak + 1);
+            onTrigger();
         } else if (!nowFocus && elapsedTime == breakTime) {
             setNowFocus(true);
             setElapsedTime(0);
@@ -88,11 +95,15 @@ export default function TimeTracker() {
                 type="number"
                 value={focusTime}
                 onChange={handleFocusTimeChange}
+                min={0}
+                style={{width: "50px"}}
             />
             <input 
                 type="number"
                 value={breakTime}
                 onChange={handleBreakTimeChange}
+                min={0}
+                style={{width: "50px"}}
             />
             <button onClick={ () => {setIsRunning(!isRunning); }}>{ isRunning ? "Stop Timer" : "Start Timer"}</button>
         </div>
