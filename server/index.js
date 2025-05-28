@@ -63,6 +63,10 @@ app.post('/update', (req, res) => {
                 default:
                     return res.status(400).json({message: "Invalid update type"})
             }
+            if(json.Xp >= 100){
+                json.Level = json.Level + 1;
+                json.Xp = json.Xp % 100;
+            }
         }
 
         fs.writeFile("data.json", JSON.stringify(json, null, 2), (err) => {

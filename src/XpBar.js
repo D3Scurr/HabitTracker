@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
 
 const XpBar = forwardRef((props,ref) => {
+    const [level,setLevel] = useState(0);
     const [xp,setXp] = useState(0);
 
     const fetchXp = () => {
@@ -9,6 +10,9 @@ const XpBar = forwardRef((props,ref) => {
             .then(data =>{
                 if(data.Xp !== undefined){
                     setXp(data.Xp);
+                }
+                if(data.Level !== undefined){
+                    setLevel(data.Level)
                 }
             })
             .catch((err) => console.error("Failed to fetch xp: ",err));
@@ -24,6 +28,7 @@ const XpBar = forwardRef((props,ref) => {
 
     return(
         <div>
+            <h3>Level: {level}</h3>
             <p>Experience: {xp}</p>
             <progress value={xp * 0.01} />
         </div>

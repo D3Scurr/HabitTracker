@@ -11,7 +11,6 @@ function App() {
 
   const handleTrigger = () => {
     if(XpBarRef.current) {
-      console.log("Habit completed, triggering XP update");
       XpBarRef.current.fetchXp();
     }
   }
