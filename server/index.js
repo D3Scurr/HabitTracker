@@ -17,6 +17,16 @@ app.get("/api", (req, res) => {
     });
 });
 
+app.post('/login', (req,res) => {
+    const {email, password} = req.body;
+
+    if(email === 'user@example.com' && password === '1234') {
+        res.json({ token: 'dummy-token' });
+    } else {
+        res.status(401).json({message: 'Invalid credentials'});
+    }
+})
+
 app.post('/update', (req, res) => {
     const updates = req.body.updates;
 
