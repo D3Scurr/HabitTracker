@@ -1,4 +1,10 @@
 {
+  "LoginData":[
+    {
+      "email": "user@example.com",
+      "password": "1234"
+    }
+  ],
   "Habits": [
     {
       "name": "Drink water"

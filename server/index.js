@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const fs = require("fs");
-const database = require("./data.json");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -19,12 +18,24 @@ app.get("/api", (req, res) => {
 
 app.post('/login', (req,res) => {
     const {email, password} = req.body;
-
-    if(email === 'user@example.com' && password === '1234') {
-        res.json({ token: 'dummy-token' });
-    } else {
-        res.status(401).json({message: 'Invalid credentials'});
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
     }
+
+    try {
+        const json = fs.readFileSync("data.json");
+        const users = JSON.parse(json);
+        const user = users.LoginData.find(u => u.email === email);
+        if(user && password === user.password) {
+            res.json({ token: 'dummy-token' });
+        } else {
+            res.status(401).json({message: 'Invalid credentials'});
+        }
+    } catch (err) {
+        console.error('Failed to read data.json',err);
+        res.status(500).json({ message: 'Internal server error' })
+    }
+    
 })
 
 app.post('/update', (req, res) => {
