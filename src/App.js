@@ -6,9 +6,11 @@ import Clock from './Clock';
 import XpBar from './XpBar';
 import Login from './Login';
 import { useRef, useState } from 'react';
+import SignUp from './SignUp';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
+  const [signUp, setSignUp] = useState(false);
   const XpBarRef = useRef();
 
   const handleLogin = (newToken) => {
@@ -37,8 +39,13 @@ function App() {
           <Clock />
           <XpBar ref={XpBarRef} />
         </>
+      ) : !signUp ? (
+        <>
+          <Login onLogin={handleLogin} />
+          <button onClick={() => {setSignUp(!signUp)}}>Sign Up</button>
+        </>
       ) : (
-        <Login onLogin={handleLogin} />
+        <SignUp />
       )}
     </div>
   );

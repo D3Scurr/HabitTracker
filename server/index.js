@@ -77,9 +77,15 @@ app.post('/update', (req, res) => {
                     json.Checkboxes = json.Checkboxes || [];
                     console.log(json.Checkboxes)
                     json.Checkboxes = value;
+                    break;
                 case "Streak":
                     if(typeof value != "number") break;
                     json.Streak = value;
+                    break;
+                case "SignUp":
+                    if (!value?.email || !value?.password) break;
+                    json.LoginData = json.LoginData || [];
+                    json.LoginData.push({ email: value.email, password: value.password });
                     break;
                 default:
                     return res.status(400).json({message: "Invalid update type"})
