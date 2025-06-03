@@ -1,8 +1,14 @@
 {
   "LoginData": [
     {
+      "username": "D3Scurr",
       "email": "user@example.com",
       "password": "1234"
+    },
+    {
+      "username": "Something",
+      "email": "someone@gmail.com",
+      "password": "qwer"
     }
   ],
   "Habits": [

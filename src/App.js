@@ -11,10 +11,15 @@ import SignUp from './SignUp';
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [signUp, setSignUp] = useState(false);
+  const [username, setUsername] = useState('');
   const XpBarRef = useRef();
 
   const handleLogin = (newToken) => {
     setToken(newToken);
+  };
+
+  const handleMessageFromChild = (data) => {
+    setUsername(data);
   };
 
   const handleLogout = () => {
@@ -27,11 +32,12 @@ function App() {
       XpBarRef.current.fetchXp();
     }
   }
+
   return (
     <div>
       {token ? (
         <>
-          <h1>Welcome!</h1>
+          <h1>Welcome {username}!</h1>
           <button onClick={handleLogout}>Logout</button>
           <HabitList onTrigger={handleTrigger}/>
           <TimeTracker onTrigger={handleTrigger}/>
@@ -41,7 +47,7 @@ function App() {
         </>
       ) : !signUp ? (
         <>
-          <Login onLogin={handleLogin} />
+          <Login onLogin={handleLogin} sendMessage={handleMessageFromChild}/>
           <button onClick={() => {setSignUp(!signUp)}}>Sign Up</button>
         </>
       ) : (
